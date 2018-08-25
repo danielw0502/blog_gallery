@@ -89,9 +89,9 @@ configure_uploads(app, photos)
 
 class Album(flask_db.Model):
     id = IntegerField(primary_key = True)
-    title = CharField() #Ïà²á±êÌâ
-    about = TextField() #Ïà²áĞÅÏ¢
-    cover = CharField() # Ïà²á·âÃæÍ¼Æ¬url
+    title = CharField() #ç›¸å†Œæ ‡é¢˜
+    about = TextField() #ç›¸å†Œä¿¡æ¯
+    cover = CharField() # ç›¸å†Œå°é¢å›¾ç‰‡url
     timestamp = DateTimeField(default=datetime.datetime.now)
     class Meta:
         database = database
@@ -99,16 +99,16 @@ class Album(flask_db.Model):
 class Photo(flask_db.Model):
     #id = IntegerField(primary_key = True)
     #order = IntegerField()
-    url = CharField() #Ô­Í¼url
-    url_s = CharField() #Õ¹Ê¾Í¼url
-    url_t = CharField() #ËõÂÔÍ¼url
-    #about = TextField() #Í¼Æ¬½éÉÜ
+    url = CharField() #åŸå›¾url
+    url_s = CharField() #å±•ç¤ºå›¾url
+    url_t = CharField() #ç¼©ç•¥å›¾url
+    #about = TextField() #å›¾ç‰‡ä»‹ç»
     timestamp = DateTimeField(default=datetime.datetime.now)
     album_id = ForeignKeyField(Album, backref='photos')
     class Meta:
         database = database
         
-#ÉÏ´«±íµ¥begin
+#ä¸Šä¼ è¡¨å•begin
 class NewAlbumForm(Form):
     title = StringField('title')
     about = TextAreaField('introduction', render_kw ={'rows': 8})
@@ -118,7 +118,7 @@ class NewAlbumForm(Form):
 class AddPhotoForm(Form):
     photo = FileField('picture', validators=[FileRequired(),FileAllowed(photos, 'photo only')])
     submit = SubmitField('submit')
-#ÉÏ´«±íµ¥end
+#ä¸Šä¼ è¡¨å•end
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -147,8 +147,8 @@ def save_image(files):
         filename = hashlib.md5(str(time.time())).hexdigest()[:10]
         image = photos.save(img, name=filename + '.')
         file_url = photos.url(image)
-        url_s = image_resize(image, 800) #´´½¨Õ¹Ê¾Í¼
-        url_t = image_resize(image, 300) #´´½¨ËõÂÔÍ¼
+        url_s = image_resize(image, 800) #åˆ›å»ºå±•ç¤ºå›¾
+        url_t = image_resize(image, 300) #åˆ›å»ºç¼©ç•¥å›¾
         images.append((file_url, url_s , url_t))
     return images
 
@@ -307,7 +307,7 @@ class Entry(flask_db.Model):
         ret = super(Entry, self).save(*args, **kwargs)
 
         # Store search content.
-        self.update_seaverch_index()
+        self.update_search_index()
         return ret
 
     def update_search_index(self):
