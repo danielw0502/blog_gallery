@@ -1,0 +1,22 @@
+<style type="text/css">
+.sidebar {
+float:right;
+position: absolute;
+top: 92px;
+right: 5px;
+}
+</style>
+</body>
+<div class="sidebar">
+<h2>Top Tags</h2>
+<ul>
+
+<h4>{{ t }}</h4>
+{% for tag in t %}
+
+<li>{{ tag }} count: {{ t[tag] }}</li>
+
+{% endfor %}
+</ul>
+</div>
+</body>

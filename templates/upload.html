@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Blog entries{% endblock %}
+
+{% block content_title %}Upload Photos{% endblock %}
+
+{% block content %}
+
+<div class="row text-center">
+    <div class="col-md-1"></div>
+    <div class="col-md-4 choice">
+        <h2>Upload to the album</h2>
+        <form action="{{ url_for('.upload_add') }}" method="POST">
+            <select name="album" class="form-control">
+            {% for album in albums %}
+            <option value="{{ album.id }}">{{ album.title }}</option>
+            {% endfor %}
+            </select><br>
+            <input class="btn btn-primary" type="submit" name="submit" value="submit">&nbsp;&nbsp;
+        </form>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+{% endblock %}

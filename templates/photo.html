@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Blog entries{% endblock %}
+
+{% block content %}
+<ol>
+    <li><a href="{{ url_for('.index') }}">main</a></li>
+    <li><a href="{{ url_for('.album', id=album.id) }}"> {{ album.title }}</a></li>
+    <li class="active">index{{ photo_index }}</li>
+    <li class="pull-right"><a href="{{ url_for('.album', id=album.id) }}">return</a></li>
+</ol>
+
+<div>
+     <a href="{{ url_for('.photo_next', id=photo.id)}}" title="next">
+        <img src="{{ photo.url_s }}">
+     </a>
+</div>
+
+
+<div>
+    <p>
+        <a class="btn btn-default" href="{{ url_for('.photo_previous', id=photo.id)}}">last</a>
+        <a class="btn btn-default" href="{{ url_for('.photo_next', id=photo.id)}}">next</a>
+        &nbsp; {{ photo_index }} / {{ photo_sum }}
+    </p>
+</div>
+{% endblock %}

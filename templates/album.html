@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+
+{% block title %}Blog entries{% endblock %}
+
+{% block content_title %}Gallery{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h3>{{ album.title }}</h3>
+    <p>{{ album.about }}</p>
+    <p>{{ album.photos.count() }} {{ album.timestamp }}</p>
+</div>
+
+<div class="grid row">
+    {% for photo in photos %}
+    <div class="image grid-item">
+        <a class="thumbnail" href=" {{ url_for('.photo', id=photo.id) }}" title="">
+           <img class="img-responsive" src="{{ photo.url_t}}"> 
+        </a>
+    {% endfor %}
+</div>
+    
+
+{% endblock %}

@@ -1,0 +1,59 @@
+<style type="text/css">
+   .sidebar {
+        position: absolute;
+        top: 53px;
+        right: 2px;
+        width: auto;
+        }   
+    .text_color{
+        color: #ea7f7f;
+        text-decoration:none;
+        }
+    .text_color:hover{
+        color: #f72121;
+        text-decoration:underline;
+        }
+     .sidebar ul{
+        padding: 0;
+        list-style-type: none;
+        }
+    .articles ul ,.tag ul{
+        background-color: white;
+        margin-top: 10px;
+        }
+    .articles li, .tag li{
+        line-height: 24px;
+        margin:8px;
+        border-bottom: 1px solid #CCC;
+    }
+</style>
+
+<div class="col-lg-3 visible-lg sidebar">
+    
+    <div class="contact">
+        <h3>联系方式</h3>
+            <img style="width:200px" src="data:;base64, {{ img }}" alt="wechat" />
+    </div>
+    
+    <div class="articles">
+        <h3>最新文章</h3>
+        <ul>
+            {% for kk in range(5) %}
+                <li><a class="text_color" href="{{ url_for('detail', slug = recent_article[kk])}}"> {{ recent_article[kk] | safe }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="tag">
+    <h3>标签</h3>
+        <ul>
+            {% for key in t %}
+                <li>
+                    {{ key }}
+                    （<a class="text_color" href="{{ url_for('find_blog_with_tag', tag = key) }}">{{ t[key] }}</a>）
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>

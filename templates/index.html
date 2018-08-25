@@ -1,0 +1,47 @@
+<style type="text/css">
+    
+    .article_content{
+        border-bottom: 1px dotted #CCC;
+    }
+    .text_color{
+        color: #ea7f7f;
+        text-decoration:none;
+    }
+
+    
+    .text_color:hover{
+        color: #f72121;
+        text-decoration:underline;
+    }
+
+</style>
+
+{% extends "base.html" %}
+
+{% block title %}Blog Entries{% endblock %}
+
+{% block content_title %}{% if search %}Search "{{ search }}"{% else %}Blog entries{% endif %}{% endblock %}
+
+{% block content %}
+   
+  {% for entry in object_list %}
+    <div class="article_content">
+    <h3>
+      <a class="text_color" href="{% if entry.published %}{{ url_for('detail', slug=entry.slug) }}{% else %}{{ url_for('edit', slug=entry.slug) }}{% endif %}" >
+        {{ entry.title | safe}}
+      </a>
+    </h3>
+    <p>Author:<a class="text_color" href="{{ url_for('about')}}">danielw</a> | Time:{{ entry.timestamp.strftime('%m/%d/%Y at %G:%I%p') }} | Tag:
+    {% for tag in entry.tag_name.strip('|').split('|') %} 
+    <a class="text_color" href="{{ url_for('find_blog_with_tag', tag=tag) }}">{{ tag }}</a>
+    {% endfor %}
+    </p>
+    </div>
+  {% else %}
+    <p>No entries have been created yet.</p>
+    
+  {% endfor %}
+    
+  {%- include "sidebar.html" -%}
+  {% include "includes/pagination.html" %}
+{% endblock %}

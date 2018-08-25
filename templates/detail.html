@@ -1,0 +1,32 @@
+<style type="text/css">
+
+    .text_color{
+        color: #ea7f7f;
+    }
+
+    .text_color:hover{
+        color: #f72121;
+    }
+</style>
+
+
+{% extends "base.html" %}
+
+{% block title %}{{ entry.title }}{% endblock %}
+
+{% block content_title %}{{ entry.title }}{% endblock %}
+
+{% block extra_header %}
+  {% if session.logged_in %}
+    <li><a href="{{ url_for('edit', slug=entry.slug) }}">Edit entry</a></li>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {{ entry.html_content }}
+<p>Author:<a class="text_color" href="{{ url_for('about')}}">danielw</a> | Time:{{ entry.timestamp.strftime('%m/%d/%Y at %G:%I%p') }} | Tag:
+{% for tag in entry.tag_name.strip('|').split('|') %}
+<a class="text_color" href="{{ url_for('find_blog_with_tag', tag=tag) }}">{{ tag }}</a>
+{% endfor %}
+{%- include "sidebar.html" -%}
+{% endblock %}

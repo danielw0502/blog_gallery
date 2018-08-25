@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Blog entries{% endblock %}
+
+{% block content_title %}Gallery{% endblock %}
+
+{% block content %}
+
+<div class="col-md-6">
+    <form class="form form-horizontal" method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ wtf.form_field(form.title) }}
+        {{ wtf.form_field(form.about) }}
+        {{ wtf.form_field(form.photo, multiple="multiple") }}
+         <hr>
+        {{ wtf.form_field(form.submit) }}
+    </form>
+</div>
+
+{% endblock %}

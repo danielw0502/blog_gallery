@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Blog entries{% endblock %}
+
+{% block content_title %}About me{% endblock %}
+
+<style type="text/css">
+
+#mid
+{
+    text-align: center;
+}
+</style>
+
+{% block content %}
+    <div style="text-align:center; ">    
+        <img id="mid" src="data:;base64, {{ img1 }}" style="margin: 0 auto;"/>
+    </div>
+    <ul style="list-style:none">
+        <li>I'm a telecommunication enginner.</li>
+        <li>Want to share something here, Hope it helpful, </li>
+        <li>Feel free to contact me.(daniel_wang0502@163.com)</li>
+    </ul>
+
+{% endblock %}

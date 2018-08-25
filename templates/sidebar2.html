@@ -1,0 +1,30 @@
+<style type="text/css">
+.sidebar {
+float:right;
+position: absolute;
+top: 92px;
+right: 10px;
+}
+</style>
+
+<div class="sidebar">
+<h2>Tag</h2>
+<ul>
+{% set my_dict = dict() %}
+{% for tag in object_list %}
+    {% for i in tag.tag_name.strip('|').split('|') %}
+        {% if i in my_dict %}
+            {% set _dump = my_dict.update({ i: my_dict[i] + 1}) %}
+        {% else %}
+            {% set _dump = my_dict.update({ i: 1}) %}
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+{% for key in my_dict %}
+<li>
+{{ key }}
+<a href="{{ url_for('find_blog_with_tag', tag= key) }}">{{ my_dict[key] }}</a>
+</li>
+{% endfor %}
+</ul>
+</div>
