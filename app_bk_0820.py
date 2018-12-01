@@ -31,7 +31,7 @@ from flask_uploads import UploadSet, configure_uploads, IMAGES
 # You may consider using a one-way hash to generate the password, and then
 # use the hash again in the login view to perform the comparison. This is just
 # for simplicity.
-ADMIN_PASSWORD = 'secret'
+ADMIN_PASSWORD = 'XXX'
 APP_DIR = os.path.dirname(os.path.realpath(__file__))
 
 # The playhouse.flask_utils.FlaskDB object accepts database URL configuration.
@@ -75,32 +75,32 @@ configure_uploads(app, photos)
 
 class Album(flask_db.Model):
     id = IntegerField(primary_key = True)
-    title = CharField() #Ïà²á±êÌâ
-    about = TextField() #Ïà²áĞÅÏ¢
-    cover = CharField() # Ïà²á·âÃæÍ¼Æ¬url
+    title = CharField() #ç›¸å†Œæ ‡é¢˜
+    about = TextField() #ç›¸å†Œä¿¡æ¯
+    cover = CharField() # ç›¸å†Œå°é¢å›¾ç‰‡url
     timestamp = DateTimeField(default=datetime.datetime.now)
 
 class Photo(flask_db.Model):
     id = IntegerField(primary_key = True)
     order = IntegerField()
-    url = CharField() #Ô­Í¼url
-    url_s = CharField() #Õ¹Ê¾Í¼url
-    url_t = CharField() #ËõÂÔÍ¼url
-    about = TextField() #Í¼Æ¬½éÉÜ
+    url = CharField() #åŸå›¾url
+    url_s = CharField() #å±•ç¤ºå›¾url
+    url_t = CharField() #ç¼©ç•¥å›¾url
+    about = TextField() #å›¾ç‰‡ä»‹ç»
     timestamp = DateTimeField(default=datetime.datetime.now)
     album_id = ForeignKeyField(Album, backref='photos')
 
-#ÉÏ´«±íµ¥begin
+#ä¸Šä¼ è¡¨å•begin
 class NewAlbumForm(Form):
-    title = StringField(u'±êÌâ')
-    about = TextAreaField(u'½éÉÜ', render_kw ={'rows': 8})
-    photo = FileField(u'Í¼Æ¬', validators=[FileRequired(u'Äã»¹Ã»ÓĞÑ¡ÔñÍ¼Æ¬£¡'), FileAllowed(photos, u'Ö»ÄÜÉÏ´«Í¼Æ¬£¡')])
-    submit = SubmitField(u'Ìá½»')
+    title = StringField(u'æ ‡é¢˜')
+    about = TextAreaField(u'ä»‹ç»', render_kw ={'rows': 8})
+    photo = FileField(u'å›¾ç‰‡', validators=[FileRequired(u'ä½ è¿˜æ²¡æœ‰é€‰æ‹©å›¾ç‰‡ï¼'), FileAllowed(photos, u'åªèƒ½ä¸Šä¼ å›¾ç‰‡ï¼')])
+    submit = SubmitField(u'æäº¤')
 
 class AddPhotoForm(Form):
-    photo = FileField(u'Í¼Æ¬', validators=[FileRequired(),FileAllowed(photos, u'Ö»ÄÜÉÏ´«Í¼Æ¬£¡')])
-    submit = SubmitField(u'Ìá½»')
-#ÉÏ´«±íµ¥end
+    photo = FileField(u'å›¾ç‰‡', validators=[FileRequired(),FileAllowed(photos, u'åªèƒ½ä¸Šä¼ å›¾ç‰‡ï¼')])
+    submit = SubmitField(u'æäº¤')
+#ä¸Šä¼ è¡¨å•end
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -129,8 +129,8 @@ def save_image(files):
         filename = hashlib.md5(str(time.time())).hexdigest()[:10]
         image = photos.save(img, name=filename + '.')
         file_url = photos.url(image)
-        url_s = image_resize(image, 800) #´´½¨Õ¹Ê¾Í¼
-        url_t = image_resize(image, 300) #´´½¨ËõÂÔÍ¼
+        url_s = image_resize(image, 800) #åˆ›å»ºå±•ç¤ºå›¾
+        url_t = image_resize(image, 300) #åˆ›å»ºç¼©ç•¥å›¾
         images.append((file_url, url_s , url_t))
     return images
 
@@ -191,7 +191,7 @@ def create_gallery():
             photo.save()
             #db.session.add(photo)
         #db.session.commit()
-        flash(u'Ïà²á´´½¨³É¹¦', 'success')
+        flash(u'ç›¸å†Œåˆ›å»ºæˆåŠŸ', 'success')
         return redirect(url_for('.album', id=album.id))
     return render_template('create_gallery.html', form=form)
 
@@ -213,7 +213,7 @@ def photo_previous(id):
     photos = album.photos.order_by(Photo.order.asc())
     position = list(photos).index(photo_now) - 1
     if position == -1:
-        flash(u'ÒÑ¾­ÊÇµÚÒ»ÕÅÁË¡£', 'info')
+        flash(u'å·²ç»æ˜¯ç¬¬ä¸€å¼ äº†ã€‚', 'info')
         return redirect(url_for('.photo', id=id))
     photo = photos[position]
     return redirect(url_for('.photo', id=photo.id))
@@ -226,7 +226,7 @@ def photo_next(id):
     photos = album.photos.order_by(Photo.order.asc())
     position = list(photos).index(photo_now) + 1
     if position == len(list(photos)):
-        flash(u'ÒÑ¾­ÊÇ×îºóÒ»ÕÅÁË¡£', 'info')
+        flash(u'å·²ç»æ˜¯æœ€åä¸€å¼ äº†ã€‚', 'info')
         return redirect(url_for('.photo', id=id))
     photo = photos[position]
     return redirect(url_for('.photo', id=photo.id))
@@ -246,7 +246,7 @@ def add_photo(id):
                 photo = Photo(url=url[0], url_s = url[1], url_t=url[2],
                     album = album)
                 photo.save()
-        flash(u'Í¼Æ¬Ìí¼Ó³É¹¦','success')
+        flash(u'å›¾ç‰‡æ·»åŠ æˆåŠŸ','success')
         return redirect(url_for('.album', id=album.id))
     return render_template('add_photo.html', form=form, album=album)
 
